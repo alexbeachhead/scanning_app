@@ -1,24 +1,24 @@
-import { withStyles } from "@utils/hocs/withStyles";
+import {withStyles} from '@utils/hocs/withStyles';
 
-export const useStyles = withStyles(({ colors }) => ({
+export const useStyles = withStyles(({colors}) => ({
   container: {
     height: 52,
-    backgroundColor: colors.mainBackground,
+    backgroundColor: colors.background,
     borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 14,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   modalInnerContainer: {
     // height: "100%",
-    backgroundColor: colors.neutral0,
+    backgroundColor: colors.foreground,
   },
   itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
     height: 40,
   },
 }));

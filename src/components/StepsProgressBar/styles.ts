@@ -1,9 +1,9 @@
-import { withStyles } from "@utils/hocs/withStyles";
+import {withStyles} from '@utils/hocs/withStyles';
 
-export const useStyles = withStyles(({ colors }) => ({
+export const useStyles = withStyles(({colors}) => ({
   container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     gap: 12,
   },
   step: {
@@ -12,12 +12,12 @@ export const useStyles = withStyles(({ colors }) => ({
     borderRadius: 3,
   },
   previousStep: {
-    backgroundColor: colors.blue500,
+    backgroundColor: colors.primary,
   },
   activeStep: {
-    backgroundColor: colors.neutral500,
+    backgroundColor: colors.content4,
   },
   inactiveStep: {
-    backgroundColor: colors.neutral200,
+    backgroundColor: colors.content3,
   },
 }));

@@ -1,21 +1,23 @@
-import { withStyles } from "@utils/hocs/withStyles";
+import {withStyles} from '@utils/hocs/withStyles';
 
-export const useStyles = withStyles(({ colors, height, insets }) => ({
+export const useStyles = withStyles(({colors, height, insets, width}) => ({
   container: {
     margin: 0,
-    justifyContent: "flex-end",
+    justifyContent: width > 736 ? 'center' : 'flex-end',
   },
   fullscreen: {
-    height: height - insets.top,
+    height: width > 736 ? 876 : height - insets.top,
+    width: width > 736 ? 375 : '100%',
+    alignSelf: 'center',
   },
   modal: {
     maxHeight: height - insets.top,
-    backgroundColor: colors.neutral0,
+    backgroundColor: colors.foreground,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     paddingTop: 8,
     paddingBottom: insets.bottom || 16,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
   headerContainer: {
@@ -26,10 +28,10 @@ export const useStyles = withStyles(({ colors, height, insets }) => ({
     width: 32,
     height: 3,
     borderRadius: 3,
-    backgroundColor: colors.neutral500,
+    backgroundColor: colors.secondaryDarkGrey,
   },
   crossContainer: {
-    width: "100%",
+    width: '100%',
     paddingTop: 8,
   },
 }));

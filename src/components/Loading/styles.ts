@@ -1,6 +1,6 @@
 import {withStyles} from '@utils/hocs/withStyles';
 
-export const useStyles = withStyles(({colors, spacing}) => ({
+export const useStyles = withStyles(({spacing}) => ({
   container: {
     position: 'absolute',
     top: 0,
@@ -13,14 +13,12 @@ export const useStyles = withStyles(({colors, spacing}) => ({
     zIndex: 1000,
   },
   content: {
-    backgroundColor: 'white',
     padding: spacing.l,
     borderRadius: 8,
     alignItems: 'center',
   },
   text: {
     marginTop: spacing.s,
-    fontSize: 16,
   },
   // Keep existing styles for backward compatibility
   absolute: {

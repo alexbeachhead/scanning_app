@@ -1,27 +1,27 @@
-import { withStyles } from "@utils/hocs/withStyles";
+import {withStyles} from '@utils/hocs/withStyles';
 
-export const useStyles = withStyles(({ colors, insets }) => ({
+export const useStyles = withStyles(({colors, insets}) => ({
   container: {
-    width: "100%",
-    backgroundColor: colors.neutral100_1,
+    width: '100%',
+    backgroundColor: colors.content1,
     paddingHorizontal: 16,
     paddingTop: insets.top,
   },
   topContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     height: 42,
   },
   leftSide: {
-    height: "100%",
+    height: '100%',
   },
   rightSide: {
-    height: "100%",
+    height: '100%',
   },
   errorContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
   },
 }));

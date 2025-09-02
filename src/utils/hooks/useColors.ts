@@ -1,3 +1,3 @@
-import { colors } from "../constants";
+import {colors} from '../constants';
 
-export const useColors = () => Object.assign(colors.common, colors);
+export const useColors = () => Object.assign(colors, colors);

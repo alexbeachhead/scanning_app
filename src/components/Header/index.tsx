@@ -1,20 +1,20 @@
-import { View } from "react-native";
-import React, { JSX } from "react";
+import React, {JSX} from 'react';
+import {View} from 'react-native';
 
-import { useStyles } from "./styles";
-import { Text } from "../Text";
-import { Spacer } from "../Spacer";
-import { Icon } from "../Icon";
+import {Icon} from '../Icon';
+import {Spacer} from '../Spacer';
+import {Text} from '../Text';
+import {useStyles} from './styles';
 
 interface IProps {
-  leftSide?: any;
+  leftSide?: unknown;
   title?: string | JSX.Element;
-  rightSide?: any;
+  rightSide?: unknown;
   centerTitle?: string;
   error?: boolean;
 }
 
-export const Header = ({ leftSide, title = "", rightSide, centerTitle, error }: IProps) => {
+export const Header = ({leftSide, title = '', rightSide, centerTitle, error}: IProps) => {
   const styles = useStyles();
 
   return (
@@ -24,14 +24,14 @@ export const Header = ({ leftSide, title = "", rightSide, centerTitle, error }: 
         <Text variant="Headline/Medium/28">{centerTitle}</Text>
         <View style={styles.rightSide}>{rightSide}</View>
       </View>
-      <Spacer size={"xs"} />
+      <Spacer size="xs" />
       {title && (
         <View style={styles.errorContainer}>
           <Text variant="Headline/Medium/28">{title}</Text>
-          {error && <Icon name={"error"} />}
+          {error && <Icon name="error" />}
         </View>
       )}
-      <Spacer size={"xs"} />
+      <Spacer size="xs" />
     </View>
   );
 };

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { TouchableOpacity, Text, View, ViewStyle, ImageStyle, StyleProp, TextStyle } from "react-native";
-import * as Icons from "@assets/icons";
+import * as Icons from '@assets/icons';
+import React, {useState} from 'react';
+import {ImageStyle, StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
 
-import { Icon } from "../Icon";
-import { useStyles, useTypeStyles, useTypeTextStyles } from "./styles";
+import {Icon} from '../Icon';
+import {useStyles, useTypeStyles, useTypeTextStyles} from './styles';
 
-type ButtonType = "primary" | "secondary" | "text";
+type ButtonType = 'primary' | 'secondary' | 'text';
 
 interface CustomButtonProps {
   text: string;
@@ -19,7 +19,7 @@ interface CustomButtonProps {
 
 export const Button: React.FC<CustomButtonProps> = ({
   text,
-  type = "primary",
+  type = 'primary',
   disabled = false,
   onPress,
   leftIcon,
@@ -46,8 +46,7 @@ export const Button: React.FC<CustomButtonProps> = ({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={onPress}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       <View style={styles.buttonContent}>
         {leftIcon && <Icon name={leftIcon} />}
         <Text
@@ -56,8 +55,7 @@ export const Button: React.FC<CustomButtonProps> = ({
             typeTextStyles[type],
             pressed && !disabled && styles.pressedText,
             disabled && styles.disabledText,
-          ]}
-        >
+          ]}>
           {text}
         </Text>
         {rightIcon && <Icon name={rightIcon} />}

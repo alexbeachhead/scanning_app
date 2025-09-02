@@ -1,8 +1,8 @@
-import { Icon } from "@components";
-import { Pressable, StyleProp, ViewStyle } from "react-native";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from 'react';
+import {Pressable, StyleProp, ViewStyle} from 'react-native';
+import {Icon} from '../Icon';
 
-import { useStyles } from "./styles";
+import {useStyles} from './styles';
 
 export const CheckBox = ({
   onChange,
@@ -28,13 +28,8 @@ export const CheckBox = ({
   return (
     <Pressable
       onPress={handleChange}
-      style={[
-        style,
-        styles.checkbox,
-        checked ? styles.checkedContainer : styles.uncheckedContainer,
-      ]}
-    >
-      {checked && <Icon name={"checkBoxMark"} width={30} height={30} />}
+      style={[style, styles.checkbox, checked ? styles.checkedContainer : styles.uncheckedContainer]}>
+      {checked && <Icon name="checkBoxMark" width={30} height={30} />}
     </Pressable>
   );
 };

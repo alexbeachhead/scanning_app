@@ -1,26 +1,14 @@
-import {Icon} from '@components';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {useAppDispatch} from '@store';
 import {Stacks} from '@utils/constants/navigation';
 import {useState} from 'react';
 import {Pressable, View} from 'react-native';
 
+import {Icon} from '../Icon';
 import {useStyles} from './styles';
 
-interface Props extends BottomTabBarProps {}
+type Props = BottomTabBarProps;
 
 // Define the icon names that are actually used
-type IconName =
-  | 'boxActive'
-  | 'boxInactive'
-  | 'shoppingCartActive'
-  | 'shoppingCartInactive'
-  | 'plusActive'
-  | 'plusInactive'
-  | 'balanceActive'
-  | 'balanceInactive'
-  | 'userActive'
-  | 'userInactive';
 
 interface Tab {
   activeIcon: IconName;
@@ -28,32 +16,32 @@ interface Tab {
 }
 
 const tabs: Record<string, Tab> = {
-  [Stacks.MyParcels]: {
-    activeIcon: 'boxActive',
-    inactiveIcon: 'boxInactive',
+  [Stacks.GoalSetting]: {
+    activeIcon: 'home',
+    inactiveIcon: 'home',
   },
-  [Stacks.BuyForMe]: {
-    activeIcon: 'shoppingCartActive',
-    inactiveIcon: 'shoppingCartInactive',
+  [Stacks.AIChat]: {
+    activeIcon: 'chat',
+    inactiveIcon: 'chat',
   },
-  [Stacks.CreateParcelEmpty]: {
-    activeIcon: 'plusActive',
-    inactiveIcon: 'plusInactive',
+  [Stacks.HabitTracker]: {
+    activeIcon: 'stats',
+    inactiveIcon: 'stats',
   },
-  [Stacks.MyBalance]: {
-    activeIcon: 'balanceActive',
-    inactiveIcon: 'balanceInactive',
-  },
-  [Stacks.Profile]: {
-    activeIcon: 'userActive',
-    inactiveIcon: 'userInactive',
-  },
+
+  // [Stacks.PurityStreaks]: {
+  //   activeIcon: 'calendarRed',
+  //   inactiveIcon: 'calendarRed',
+  // },
+  // [Stacks.Quotes]: {
+  //   activeIcon: 'warehouse',
+  //   inactiveIcon: 'warehouse',
+  // },
 };
 
 export const TabBar = ({state, navigation}: Props) => {
   const {routes} = state;
   const styles = useStyles();
-  const dispatch = useAppDispatch();
 
   const [activeTab, setActiveTab] = useState(state.routes[0].key);
 
@@ -69,14 +57,8 @@ export const TabBar = ({state, navigation}: Props) => {
     const [icon] = getTab(key, name);
 
     const onTabPress = () => {
-      if (name === 'CREATE_PARCEL_EMPTY_STACK') {
-        setActiveTab(Stacks.MyParcels);
-        // TODO: Implement CreateParcel navigation when the stack exists
-        // navigation.navigate(Stacks.CreateParcel);
-        // TODO: Implement these thunks when user profile features are added
-        // dispatch(getUserInfoThunk());
-        // dispatch(getUserAdditionalInfoThunk());
-        // dispatch(getAgreementThunk());
+      if (name === Stacks.Chat) {
+        navigation.navigate(Stacks.AIChat);
       } else {
         setActiveTab(key);
         navigation.navigate(name);

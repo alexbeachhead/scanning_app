@@ -1,9 +1,9 @@
-import { View, TouchableOpacity } from "react-native";
-import React from "react";
-import { Text } from "@components";
-import { colors } from "@utils/constants";
+import {colors} from '@utils/constants';
+import React from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {Text} from '../Text';
 
-import { useStyles } from "./styles";
+import {useStyles} from './styles';
 
 export const RadioButton = ({
   selected,
@@ -19,24 +19,25 @@ export const RadioButton = ({
   const styles = useStyles();
 
   return (
-    <TouchableOpacity style={styles.radioContainer} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.radioContainer, {backgroundColor: selected ? `${colors.secondaryGold}80` : 'transparent'}]}
+      onPress={onPress}>
       <View
         style={[
           styles.radioOuter,
           {
-            borderColor: selected ? colors.common.mainRed : colors.common.iconColor,
-            borderWidth: selected ? 7 : 1.5,
+            borderColor: selected ? colors.primaryBlack : colors.primaryBlack,
+            borderWidth: selected ? 5 : 1.5,
           },
-        ]}
-      >
+        ]}>
         {selected && <View style={styles.radioInner} />}
       </View>
-      <View style={{ flex: 1 }}>
-        <Text variant="Body/Medium/16" style={styles.radioText}>
+      <View style={{flex: 1}}>
+        <Text variant="body" size={16} style={[styles.radioText]}>
           {children}
         </Text>
         {secondText && (
-          <Text variant="Body/Regular/14" color="secondaryTextColor">
+          <Text variant="body" size={16} color={selected ? 'warning300' : 'foreground'}>
             {secondText}
           </Text>
         )}

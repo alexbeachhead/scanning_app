@@ -1,18 +1,18 @@
-import { withStyles } from "@utils/hocs/withStyles";
+import {withStyles} from '@utils/hocs/withStyles';
 
-export const useStyles = withStyles(({ colors, height, insets, spacing }) => ({
+export const useStyles = withStyles(({colors, height, insets, spacing}) => ({
   container: {
     margin: 0,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   modal: {
     maxHeight: height - insets.top,
-    backgroundColor: colors.neutral100_1,
+    backgroundColor: colors.content1,
     borderRadius: 16,
     paddingTop: 8,
     paddingBottom: 16,
     paddingHorizontal: 16,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 34,
     marginHorizontal: spacing.s,
     gap: 8,
@@ -22,12 +22,12 @@ export const useStyles = withStyles(({ colors, height, insets, spacing }) => ({
     width: 32,
     height: 3,
     borderRadius: 3,
-    backgroundColor: colors.neutral500,
+    backgroundColor: colors.content4,
   },
   textContainer: {
     gap: 4,
   },
   text: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));

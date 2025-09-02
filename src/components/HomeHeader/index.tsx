@@ -1,51 +1,43 @@
 import {useNavigation} from '@react-navigation/native';
-import {Pressable, View} from 'react-native';
+import {Image, Pressable, View} from 'react-native';
 
-import {IconContainer} from '../IconContainer';
 import {Text} from '../Text';
 import {useStyles} from './styles';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import AppIcon from '../../../assets/appIcon.png';
+import {ArrowLeft} from '../Icon/CustomIcon';
 
 interface IProps {
   title?: string;
+  subtitle?: string;
+  withBackButton?: boolean;
 }
 
-export const HomeHeader = ({title}: IProps) => {
+export const HomeHeader = ({title, subtitle, withBackButton = false}: IProps) => {
   const styles = useStyles();
 
-  const {navigate} = useNavigation();
-
-  const onNotificationPress = () => {
-    // TODO: Implement Notifications stack when it's added to navigation
-    // navigate(Stacks.Notifications);
-  };
-  // const handleProfile = () => {
-  //   navigate(Stacks.Profile, { screen: Stacks.Profile });
-  // };
+  const {goBack} = useNavigation();
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.segment}>
-        <Pressable
-          style={[styles.segmentContentContainer, styles.leftSegment]}
-          onPress={handleProfile}
-        >
-          <Icon name={"profile"} />
+      {withBackButton && (
+        <Pressable style={styles.backButton} onPress={goBack}>
+          <ArrowLeft color="black" />
         </Pressable>
-      </View> */}
-      <View style={styles.segment}>
-        <Pressable style={styles.segmentContentContainer}>
-          <Text variant="Headline/Medium/28">{title}</Text>
-        </Pressable>
+      )}
+
+      <View style={styles.segmentContentContainer}>
+        <Text variant="header" size={28} color="secondaryDarkGrey">
+          {title}
+        </Text>
+        <Text variant="body" size={20} color="secondaryDarkGrey">
+          {subtitle}
+        </Text>
       </View>
-      <View style={styles.segment}>
-        {/* <Pressable
-          style={[styles.segmentContentContainer, styles.rightSegment, styles.bellContainer]}
-          onPress={handleNotifications}
-        >
-          <Icon name={"bell"} />
-        </Pressable> */}
-        <IconContainer name="bell" onPress={onNotificationPress} type="white" />
-      </View>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
+      <Image source={AppIcon} style={styles.appIcon} />
     </View>
   );
 };

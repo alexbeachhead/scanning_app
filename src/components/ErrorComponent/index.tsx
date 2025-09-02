@@ -1,10 +1,10 @@
-import { View, TouchableOpacity } from "react-native";
-import { colors } from "@utils/constants";
+import {colors} from '@utils/constants';
+import {TouchableOpacity, View} from 'react-native';
 
-import { useStyles } from "./styles";
-import { Icon } from "../Icon";
-import { Spacer } from "../Spacer";
-import { Text } from "../Text";
+import {Icon} from '../Icon';
+import {Spacer} from '../Spacer';
+import {Text} from '../Text';
+import {useStyles} from './styles';
 
 type Props = {
   title: string;
@@ -15,26 +15,14 @@ type Props = {
   green?: boolean;
 };
 
-export const ErrorComponent = ({
-  title,
-  onPress,
-  buttonText,
-  cancelText,
-  onCancelPress,
-  green,
-}: Props) => {
+export const ErrorComponent = ({title, onPress, buttonText, cancelText, onCancelPress, green}: Props) => {
   const styles = useStyles();
 
   return (
-    <View
-      style={[
-        styles.errorContainer,
-        { backgroundColor: green ? colors.common.lightGreenInfo : colors.common.lightRed },
-      ]}
-    >
-      <Icon name={green ? "errorGreen" : "error"} />
+    <View style={[styles.errorContainer, {backgroundColor: green ? colors.success : colors.danger}]}>
+      <Icon name={green ? 'errorGreen' : 'error'} />
       <View style={styles.textContainer}>
-        <Text variant="Body/Regular/16" color={green ? "mainGreen" : "mainRed"}>
+        <Text variant="Body/Regular/16" color={green ? 'success' : 'danger'}>
           {title}
         </Text>
         {buttonText && (
@@ -42,24 +30,17 @@ export const ErrorComponent = ({
             <Spacer size={8} />
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={onPress} style={styles.newBtn}>
-                <Text variant="Body/Regular/16" color="neutral0">
+                <Text variant="Body/Regular/16" color="foreground">
                   {buttonText}
                 </Text>
               </TouchableOpacity>
               {cancelText && (
-                <>
-                  <TouchableOpacity onPress={onCancelPress} style={styles.errorEmptyBtn}>
-                    <Icon name="xClose" />
-                    <Text
-                      variant="Body/Regular/16"
-                      color="mainRed"
-                      numberOfLines={1}
-                      style={{ flex: 1 }}
-                    >
-                      {cancelText}
-                    </Text>
-                  </TouchableOpacity>
-                </>
+                <TouchableOpacity onPress={onCancelPress} style={styles.errorEmptyBtn}>
+                  <Icon name="xClose" />
+                  <Text variant="Body/Regular/16" color="danger" numberOfLines={1} style={{flex: 1}}>
+                    {cancelText}
+                  </Text>
+                </TouchableOpacity>
               )}
             </View>
           </>

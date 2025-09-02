@@ -64,6 +64,7 @@ export const Input = ({
   const [animatedPlaceholder] = useState(new Animated.Value(value ? 1 : 0));
   const [previousValue, setPreviousValue] = useState<string>('');
   const [inputHeight, setInputHeight] = useState<number>(52);
+  const lastHeightRef = useRef<number>(52);
 
   const hasError = errorMessages.length > 0;
 
@@ -173,8 +174,14 @@ export const Input = ({
   };
 
   const handleContentSizeChange = (event: {nativeEvent: {contentSize: {height: number}}}) => {
-    if (multiline) {
-      setInputHeight(Math.max(52, event.nativeEvent.contentSize.height + 22));
+    // Disable on web to prevent infinite loops
+    if (multiline && Platform.OS !== 'web') {
+      const newHeight = Math.max(52, event.nativeEvent.contentSize.height + 22);
+      // Prevent infinite loops by checking if height actually changed and using ref
+      if (newHeight !== lastHeightRef.current) {
+        lastHeightRef.current = newHeight;
+        setInputHeight(newHeight);
+      }
     }
   };
 
@@ -187,8 +194,8 @@ export const Input = ({
           hasError && styles.inputError,
           {height: multiline ? inputHeight : 52},
           styleContainer,
-          dark && {backgroundColor: colors.common.mainBackground},
-          disabled && {backgroundColor: colors.common.disabled},
+          dark && {backgroundColor: colors.background},
+          disabled && {backgroundColor: colors.content3},
         ]}
         onPress={() => inputRef?.current?.focus()}
         disabled={disabled}>
@@ -211,19 +218,19 @@ export const Input = ({
               : iconLeft && Platform.OS !== 'android'
                 ? {marginBottom: 2}
                 : undefined,
-            dark && {backgroundColor: colors.common.mainBackground},
-            disabled && {backgroundColor: colors.common.disabled},
+            dark && {backgroundColor: colors.background},
+            disabled && {backgroundColor: colors.content3},
           ]}
-          value={isCardNumber ? formatCardNumber(value ?? '') : value ?? ''}
+          value={isCardNumber ? formatCardNumber(value ?? '') : (value ?? '')}
           onChangeText={handleTextChange}
           placeholder={withMovingPlaceholder ? '' : placeholder}
-          placeholderTextColor={colors.common.secondaryTextColor}
+          placeholderTextColor={colors.primaryBlack}
           onFocus={() => setIsFocused(true)}
           onBlur={() => {
             setIsFocused(false);
             if (maskType === MaskType.Money) {
               if (!value?.includes('.') && value !== '') {
-                onChangeText(value + '.00');
+                onChangeText(`${value}.00`);
               }
             }
           }}
@@ -249,23 +256,20 @@ export const Input = ({
             <Icon name={iconRight} width={24} height={24} />
           </Pressable>
         )}
-        {/* {withClear && (value ?? "").length > 0 && (
-          <Pressable
-            onPress={() => onChangeText("")}
-            style={{ alignSelf: "center", marginBottom: -4 }}
-          >
-            <Icon name={"cross"} />
+        {withClear && (value ?? '').length > 0 && (
+          <Pressable onPress={() => onChangeText('')} style={{alignSelf: 'center', marginBottom: -4}}>
+            <Icon name="cross" />
           </Pressable>
         )}
-        {/* {withIcon && (
-          <Pressable onPress={onIconPress} style={{ alignSelf: "center", marginBottom: -4 }}>
-            <Icon name={icon || "calendar"} />
+        {withIcon && (
+          <Pressable onPress={onIconPress} style={{alignSelf: 'center', marginBottom: -4}}>
+            <Icon name={icon || 'map'} />
           </Pressable>
-        )} */}
+        )}
       </Pressable>
       {hasError &&
-        errorMessages.map((el, index) => (
-          <View style={styles.errorContainer} key={index}>
+        errorMessages.map(el => (
+          <View style={styles.errorContainer} key={el}>
             <Text style={styles.errorText}>{el}</Text>
           </View>
         ))}

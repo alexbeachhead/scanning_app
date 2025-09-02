@@ -7,7 +7,7 @@ interface IProps extends PropsWithChildren {
   headerType?: 'withBackButton' | 'home';
 }
 
-export const useHeader = ({title, headerType}: IProps) => {
+export const useHeader = ({title}: IProps) => {
   const navigation = useContext(NavigationContext);
 
   useEffect(() => {

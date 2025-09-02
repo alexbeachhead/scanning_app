@@ -1,25 +1,33 @@
-import { withStyles } from "@utils/hocs/withStyles";
+import {withStyles} from '@utils/hocs/withStyles';
+import {Platform} from 'react-native';
 
-export const useStyles = withStyles(({ colors, insets, spacing }) => ({
+export const useStyles = withStyles(({insets, spacing}) => ({
   container: {
-    height: 92 + insets.top,
-    backgroundColor: colors.mainBackground,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: spacing.m,
-    alignItems: "center",
-  },
-  segment: {
-    // width: width / 2,
-    paddingTop: insets.top,
+    height: Platform.OS === 'ios' ? 92 + insets.top / 2 : 92 + insets.top,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    marginTop: spacing.l * 2,
   },
   segmentContentContainer: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   leftSegment: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   rightSegment: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
+  },
+  appIcon: {
+    width: 73,
+    height: 73,
+    marginRight: -14,
+    marginTop: -14,
+  },
+  backButton: {
+    position: 'absolute',
+    left: 0,
+    top: -16,
   },
 }));

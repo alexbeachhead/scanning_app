@@ -1,17 +1,17 @@
-import { Pressable } from "react-native";
-import { Icon } from "@components";
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from '@react-navigation/native';
+import {Pressable} from 'react-native';
+import {Icon} from '../Icon';
 
-import { useStyles } from "./styles";
+import {useStyles} from './styles';
 
 interface IProps {
   onGoBack?: () => void;
 }
 
-export const BackButton = ({ onGoBack }: IProps) => {
+export const BackButton = ({onGoBack}: IProps) => {
   const styles = useStyles();
 
-  const { goBack } = useNavigation();
+  const {goBack} = useNavigation();
 
   const handleBack = () => {
     if (onGoBack) {
@@ -25,7 +25,7 @@ export const BackButton = ({ onGoBack }: IProps) => {
 
   return (
     <Pressable onPress={handleBack} style={styles.backContainer}>
-      <Icon name={"arrowLeft"} />
+      <Icon name="arrowLeft" />
     </Pressable>
   );
 };

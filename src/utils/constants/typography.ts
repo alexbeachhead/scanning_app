@@ -1,10 +1,10 @@
-import { TextStyle } from "react-native";
+import {TextStyle} from 'react-native';
 
-export type Size = "xxl" | "xl" | "l" | "m" | "s" | "xs" | "xxs";
-export type Weight = "regular" | "medium" | "bold";
+export type Size = 'xxl' | 'xl' | 'l' | 'm' | 's' | 'xs' | 'xxs';
+export type Weight = 'regular' | 'medium' | 'bold';
 
 export const typography = {
-  sizes: ["xxl", "xl", "l", "m", "s", "xs", "xxs"] as Size[],
+  sizes: ['xxl', 'xl', 'l', 'm', 's', 'xs', 'xxs'] as Size[],
   size: {
     xxl: 34,
     xl: 24,
@@ -15,10 +15,10 @@ export const typography = {
     xxs: 10,
   } as Record<Size, number>,
   weight: {
-    regular: "400",
-    medium: "500",
-    bold: "700",
-  } as Record<Weight, TextStyle["fontWeight"]>,
+    regular: '400',
+    medium: '500',
+    bold: '700',
+  } as Record<Weight, TextStyle['fontWeight']>,
   height: {
     xxl: 44.2,
     xl: 31.2,

@@ -1,39 +1,50 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { IAuthState } from "./types";
+import {HabitStreakData, IUser, NotificationSettings} from '@api/types/auth';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {HabitProgress, PersonalInfoData} from '@screens';
 import {
-  forgotPasswordThunk,
   loginThunk,
-  loginVerificationThunk,
-  logoutThunk,
   registerThunk,
-} from "./thunk";
+  saveHabitTrackingDataThunk,
+  saveNotificationTokenThunk,
+  saveOnboardingDataThunk,
+} from './thunk';
+import {IAuthState} from './types';
 
 const initialState: IAuthState = {
-  loading: false,
   isAuthorized: null,
+  loading: false,
 
-  loginVerificationThunkSuccess: false,
-  loginVerificationThunkErrors: null,
+  currentStep: 0,
+  onboardingData: {},
+  habitTrackingData: [],
+  initialHabitTrackingData: [],
 
+  loginThunkErrors: [],
   loginThunkSuccess: false,
-  loginThunkErrors: null,
   loginThunkData: null,
 
-  forgotPasswordThunkSuccess: false,
-  forgotPasswordThunkErrors: null,
+  saveOnboardingDataThunkErrors: [],
+  saveOnboardingDataThunkSuccess: false,
+  saveOnboardingDataThunkData: null,
 
+  saveHabitTrackingDataThunkErrors: [],
+  saveHabitTrackingDataThunkSuccess: false,
+  saveHabitTrackingDataThunkData: null,
+
+  registerThunkErrors: [],
   registerThunkSuccess: false,
-  registerThunkErrors: null,
+  registerThunkData: null,
+
+  saveNotificationTokenThunkErrors: [],
+  saveNotificationTokenThunkSuccess: false,
+  saveNotificationTokenThunkData: null,
 };
 
 const handlePending = (state: IAuthState) => {
   state.loading = true;
 };
 
-const handleRejected = (state: IAuthState, { payload }: PayloadAction<any>) => {
-  // console.log(state, "payload", payload.message);
-
+const handleRejected = (state: IAuthState, {payload}: PayloadAction<unknown>) => {
   state.loading = false;
   const errorField = `${payload?.type}Errors` as keyof IAuthState;
 
@@ -51,92 +62,201 @@ const handleRejected = (state: IAuthState, { payload }: PayloadAction<any>) => {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setIsAuthorized(state, action: PayloadAction<boolean>) {
       state.isAuthorized = action.payload;
     },
-    logout(state) {
-      state.loading = false;
-      state.isAuthorized = false;
+
+    // Onboarding reducers
+    setCurrentStep(state, action: PayloadAction<number>) {
+      state.currentStep = action.payload;
     },
-    resetLoginThunk(state) {
-      state.loginVerificationThunkErrors = null;
-      state.loginVerificationThunkSuccess = false;
-      state.loginThunkSuccess = false;
-      state.loginThunkErrors = null;
+
+    nextStep(state) {
+      state.currentStep += 1;
     },
+
+    previousStep(state) {
+      if (state.currentStep > 0) {
+        state.currentStep -= 1;
+      }
+    },
+
+    setPersonalInfo(state, action: PayloadAction<Partial<PersonalInfoData>>) {
+      console.log('action', action.payload);
+      state.onboardingData.personalInfo = {
+        ...state.onboardingData.personalInfo,
+        ...action.payload,
+      } as PersonalInfoData;
+    },
+
+    setSelectedHabits(state, action: PayloadAction<string[]>) {
+      state.onboardingData.selectedHabits = action.payload;
+    },
+
+    setHaveTried(state, action: PayloadAction<boolean>) {
+      state.onboardingData.haveTried = action.payload;
+    },
+
+    setProgressData(state, action: PayloadAction<HabitProgress[]>) {
+      state.onboardingData.progressData = action.payload;
+    },
+
+    setOnboardingComplete(state, action: PayloadAction<boolean>) {
+      state.onboardingData.isOnboardingComplete = action.payload;
+    },
+
+    resetOnboarding(state) {
+      state.currentStep = 0;
+      state.onboardingData = {};
+    },
+
+    // Habit tracking reducers
+    setHabitTrackingData(state, action: PayloadAction<HabitStreakData[]>) {
+      state.habitTrackingData = action.payload;
+    },
+
+    updateHabitStreak(state, action: PayloadAction<HabitStreakData>) {
+      console.log('action.payload', action.payload);
+      console.log('state.habitTrackingData', state.habitTrackingData);
+      const existingIndex = state.habitTrackingData.findIndex(habit => habit.habit === action.payload.habit);
+
+      if (existingIndex >= 0) {
+        state.habitTrackingData[existingIndex] = action.payload;
+      } else {
+        state.habitTrackingData.push(action.payload);
+      }
+    },
+
+    recordDailyHabitEntry(state, action: PayloadAction<{habit: string; date: string; wasSuccessful: boolean}>) {
+      const {habit, date, wasSuccessful} = action.payload;
+      const habitIndex = state.habitTrackingData.findIndex(h => h.habit === habit);
+
+      if (habitIndex >= 0) {
+        state.habitTrackingData[habitIndex].dailyEntries[date] = wasSuccessful;
+        state.habitTrackingData[habitIndex].lastCheckedDate = date;
+      }
+    },
+
+    initializeHabitTracking(state, action: PayloadAction<HabitStreakData[]>) {
+      state.habitTrackingData = action.payload;
+    },
+
+    setMotivationSources(state, action: PayloadAction<string[]>) {
+      state.onboardingData.motivationSources = action.payload;
+    },
+
+    setNotificationSettings(state, action: PayloadAction<NotificationSettings>) {
+      state.onboardingData.notificationSettings = action.payload;
+    },
+
+    resetHabitTracking(state) {
+      state.habitTrackingData = [];
+    },
+
     resetRegisterThunk(state) {
-      state.registerThunkErrors = null;
+      state.registerThunkErrors = [];
       state.registerThunkSuccess = false;
+      state.registerThunkData = null;
+    },
+
+    resetLoginThunk(state) {
+      state.loginThunkErrors = [];
+      state.loginThunkSuccess = false;
+      state.loginThunkData = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(loginVerificationThunk.pending, handlePending)
-      .addCase(loginVerificationThunk.fulfilled, (state, {}) => {
-        state.loading = false;
-        state.loginVerificationThunkSuccess = true;
-      })
-      .addCase(loginVerificationThunk.rejected, (state, action) => {
-        handleRejected(state, {
-          ...action,
-          payload: { ...action.payload, type: "loginVerificationThunk" },
-        });
-      })
-
       .addCase(loginThunk.pending, handlePending)
-      .addCase(loginThunk.fulfilled, (state, { payload }) => {
+      .addCase(loginThunk.fulfilled, (state, {payload}) => {
+        console.log('payload', payload);
         state.loading = false;
         state.loginThunkSuccess = true;
-        state.loginThunkData = payload.userInfo;
+        state.loginThunkData = payload.user as IUser;
         state.isAuthorized = true;
+        state.onboardingData.isOnboardingComplete = payload.user.onboardingData?.isOnboardingComplete || false;
+        state.onboardingData.personalInfo =
+          (payload.user.onboardingData?.personalInfo as PersonalInfoData) || ({} as PersonalInfoData);
+        state.onboardingData.selectedHabits = payload.user.onboardingData?.selectedHabits || [];
+        state.onboardingData.haveTried = payload.user.onboardingData?.haveTried || false;
+        state.onboardingData.progressData = payload.user.onboardingData?.progressData || [];
+        state.onboardingData.motivationSources = payload.user.onboardingData?.motivationSources || [];
+        state.onboardingData.notificationSettings =
+          payload.user.onboardingData?.notificationSettings || ({} as NotificationSettings);
+        state.initialHabitTrackingData = payload.user.habitTrackingData || [];
+        state.habitTrackingData = payload.user.habitTrackingData || [];
       })
-      .addCase(loginThunk.rejected, (state, action) => {
-        handleRejected(state, {
-          ...action,
-          payload: { ...action.payload, type: "loginThunk" },
-        });
-      })
-
-      .addCase(logoutThunk.pending, handlePending)
-      .addCase(logoutThunk.fulfilled, (state) => {
-        state.loading = false;
-        state.isAuthorized = false;
-      })
-      .addCase(logoutThunk.rejected, (state, action) => {
-        handleRejected(state, {
-          ...action,
-          payload: { ...action.payload, type: "logoutThunk" },
-        });
-      })
-
-      .addCase(forgotPasswordThunk.pending, handlePending)
-      .addCase(forgotPasswordThunk.fulfilled, (state, {}) => {
-        state.loading = false;
-        state.forgotPasswordThunkSuccess = true;
-      })
-      .addCase(forgotPasswordThunk.rejected, (state, action) => {
-        handleRejected(state, {
-          ...action,
-          payload: { ...action.payload, type: "forgotPasswordThunk" },
-        });
-      })
+      .addCase(loginThunk.rejected, (state, action) =>
+        handleRejected(state, {...action, payload: {...action.payload, type: 'loginThunk'}}),
+      )
 
       .addCase(registerThunk.pending, handlePending)
-      .addCase(registerThunk.fulfilled, (state, {}) => {
+      .addCase(registerThunk.fulfilled, (state, {payload}) => {
+        console.log('payload', payload);
         state.loading = false;
         state.registerThunkSuccess = true;
+        state.registerThunkData = payload.user as IUser;
+        state.isAuthorized = true;
       })
-      .addCase(registerThunk.rejected, (state, action) => {
-        handleRejected(state, {
-          ...action,
-          payload: { ...action.payload, type: "registerThunk" },
-        });
-      });
+      .addCase(registerThunk.rejected, (state, action) =>
+        handleRejected(state, {...action, payload: {...action.payload, type: 'registerThunk'}}),
+      )
+
+      .addCase(saveOnboardingDataThunk.pending, handlePending)
+      .addCase(saveOnboardingDataThunk.fulfilled, (state, {payload}) => {
+        state.loading = false;
+        state.saveOnboardingDataThunkSuccess = true;
+        state.saveOnboardingDataThunkData = payload;
+      })
+      .addCase(saveOnboardingDataThunk.rejected, (state, action) =>
+        handleRejected(state, {...action, payload: {...action.payload, type: 'saveOnboardingDataThunk'}}),
+      )
+      .addCase(saveHabitTrackingDataThunk.pending, handlePending)
+      .addCase(saveHabitTrackingDataThunk.fulfilled, (state, {payload}) => {
+        state.loading = false;
+        state.saveHabitTrackingDataThunkSuccess = true;
+        state.saveHabitTrackingDataThunkData = payload;
+      })
+      .addCase(saveHabitTrackingDataThunk.rejected, (state, action) =>
+        handleRejected(state, {...action, payload: {...action.payload, type: 'saveHabitTrackingDataThunk'}}),
+      )
+
+      .addCase(saveNotificationTokenThunk.pending, handlePending)
+      .addCase(saveNotificationTokenThunk.fulfilled, (state, {payload}) => {
+        state.loading = false;
+        state.saveNotificationTokenThunkSuccess = true;
+        state.saveNotificationTokenThunkData = payload;
+      })
+      .addCase(saveNotificationTokenThunk.rejected, (state, action) =>
+        handleRejected(state, {...action, payload: {...action.payload, type: 'saveNotificationTokenThunk'}}),
+      );
   },
 });
 
-export const { setIsAuthorized, logout, resetLoginThunk, resetRegisterThunk } = authSlice.actions;
+export const {
+  setIsAuthorized,
+  setCurrentStep,
+  nextStep,
+  previousStep,
+  setPersonalInfo,
+  setSelectedHabits,
+  setProgressData,
+  setOnboardingComplete,
+  resetOnboarding,
+  setHabitTrackingData,
+  updateHabitStreak,
+  recordDailyHabitEntry,
+  initializeHabitTracking,
+  resetHabitTracking,
+  setHaveTried,
+  setMotivationSources,
+  setNotificationSettings,
+  resetRegisterThunk,
+  resetLoginThunk,
+  resetSaveNotificationTokenThunk,
+} = authSlice.actions;
+
 export default authSlice.reducer;

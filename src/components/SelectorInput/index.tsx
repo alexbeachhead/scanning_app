@@ -1,17 +1,18 @@
-import { FlatList, Pressable, TouchableOpacity, View } from "react-native";
-import { Icon, Text } from "@components";
-import { useEffect, useState } from "react";
-import { colors } from "@utils/constants";
+import {colors} from '@utils/constants';
+import {useEffect, useState} from 'react';
+import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
+import {Icon} from '../Icon';
+import {Text} from '../Text';
 
-import { useStyles } from "./styles";
-import { Modal } from "../Modal";
+import {Modal} from '../Modal';
+import {useStyles} from './styles';
 
 interface IProps {
   title: string;
   itemsList: string[];
   onSelect: (index: number | null) => void;
   disabled?: boolean;
-  loadData?: () => Promise<any>;
+  loadData?: () => Promise<unknown>;
   value: number | null;
   light?: boolean;
 }
@@ -36,7 +37,7 @@ export const SelectorInput = ({
   }, [value]);
 
   const handleSelectItem = (index: number) => {
-    setSelectedItem((prev) => (prev === index ? null : index));
+    setSelectedItem(prev => (prev === index ? null : index));
 
     if (selectedItem === index) {
       setSelectedItem(null);
@@ -48,12 +49,12 @@ export const SelectorInput = ({
     }
   };
 
-  const renderItem = ({ item, index }: { item: string; index: number }) => (
+  const renderItem = ({item, index}: {item: string; index: number}) => (
     <Pressable style={styles.itemContainer} onPress={() => handleSelectItem(index)}>
-      <Text variant="Body/Medium/16" color="neutral600">
+      <Text variant="Body/Medium/16" color="content4">
         {item}
       </Text>
-      {index === selectedItem ? <Icon name={"check"} /> : <View />}
+      {index === selectedItem ? <Icon name="check" /> : <View />}
     </Pressable>
   );
 
@@ -67,16 +68,16 @@ export const SelectorInput = ({
   return (
     <>
       <TouchableOpacity
-        style={[styles.container, light && { backgroundColor: colors.common.neutral0 }, disabled && { backgroundColor: colors.common.disabled }]}
-        onPress={handleOpenModal}
-      >
-        <Text
-          variant="Body/Medium/16"
-          color={typeof selectedItem === "number" ? "neutral900" : "neutral600"}
-        >
-          {typeof selectedItem === "number" ? itemsList[selectedItem] : title}
+        style={[
+          styles.container,
+          light && {backgroundColor: colors.foreground},
+          disabled && {backgroundColor: colors.content3},
+        ]}
+        onPress={handleOpenModal}>
+        <Text variant="Body/Medium/16" color={typeof selectedItem === 'number' ? 'content1' : 'content4'}>
+          {typeof selectedItem === 'number' ? itemsList[selectedItem] : title}
         </Text>
-        <Icon name={"arrowRight"} />
+        <Icon name="arrowRight" />
       </TouchableOpacity>
       <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
         <FlatList data={itemsList} renderItem={renderItem} style={styles.modalInnerContainer} />

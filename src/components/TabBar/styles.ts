@@ -1,26 +1,26 @@
-import { withStyles } from "@utils/hocs/withStyles";
-import { Platform } from "react-native";
+import {withStyles} from '@utils/hocs/withStyles';
+import {Platform} from 'react-native';
 
-export const useStyles = withStyles(({ colors, insets, spacing }) => ({
+export const useStyles = withStyles(({colors, insets, spacing}) => ({
   container: {
-    height: 51 + insets.bottom + (Platform.OS === "android" ? spacing.s : 0),
-    flexDirection: "row",
-    backgroundColor: colors.neutral0,
-    justifyContent: "space-between",
+    height: 51 + (Platform.OS === 'android' ? spacing.s : Platform.OS === 'ios' ? insets.bottom : 10),
+    flexDirection: 'row',
+    backgroundColor: colors.primaryWhite,
+    justifyContent: 'space-between',
   },
   itemWrapper: {
-    alignItems: "center",
+    alignItems: 'center',
     gap: 4,
-    paddingTop: 10,
+    paddingTop: 15,
     flex: 1,
   },
   itemText: {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 10,
     lineHeight: 15,
-    color: colors.neutral600,
+    color: colors.content4,
   },
   activeText: {
-    color: colors.blue500,
+    color: colors.primary,
   },
 }));

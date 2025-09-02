@@ -1,12 +1,12 @@
-import { PropsWithChildren, useEffect, useState } from "react";
-import { Animated, Pressable, StyleProp, View, ViewStyle } from "react-native";
-import RNModal, { Direction, ModalProps } from "react-native-modal";
-import { useAppSelector } from "@store";
-import { LoadingProvider } from "@providers";
+import {LoadingProvider} from '@providers';
+import {useAppSelector} from '@store';
+import {PropsWithChildren, useEffect, useState} from 'react';
+import {Animated, Pressable, StyleProp, View, ViewStyle} from 'react-native';
+import RNModal, {Direction, ModalProps} from 'react-native-modal';
 
-import { useStyles } from "./styles";
-import { Icon } from "../Icon";
-import { KeyboardContainer } from "../KeyboardContainer";
+import {Icon} from '../Icon';
+import {KeyboardContainer} from '../KeyboardContainer';
+import {useStyles} from './styles';
 
 interface IProps {
   visible: boolean;
@@ -38,7 +38,7 @@ export const Modal = ({
 }: PropsWithChildren<IProps>) => {
   const styles = useStyles();
 
-  const { loading: authLoading } = useAppSelector((store) => store.auth);
+  const {loading: authLoading} = useAppSelector(store => store.auth);
 
   const [loadingVisible, setLoadingVisible] = useState(true);
 
@@ -66,29 +66,22 @@ export const Modal = ({
   };
 
   const withSwipeOptions = {
-    swipeDirection: ["down"] as unknown as Direction,
+    swipeDirection: ['down'] as unknown as Direction,
   };
 
   return (
     <RNModal
       style={stylesGet}
       isVisible={visible}
-      animationIn={"slideInUp"}
-      animationOut={"slideOutDown"}
+      animationIn="slideInUp"
+      animationOut="slideOutDown"
       onBackdropPress={onClose}
-      backdropColor={withBackdrop ? undefined : "transparent"}
+      backdropColor={withBackdrop ? undefined : 'transparent'}
       onSwipeComplete={onClose}
       {...commonOptions}
       {...{}}
-      {...(withSwipe ? withSwipeOptions : {})}
-    >
-      <Animated.View
-        style={[
-          fullscreen && styles.fullscreen,
-          styles.modal,
-          !!backgroundColor && { backgroundColor: backgroundColor },
-        ]}
-      >
+      {...(withSwipe ? withSwipeOptions : {})}>
+      <Animated.View style={[fullscreen && styles.fullscreen, styles.modal, !!backgroundColor && {backgroundColor}]}>
         {!withCross ? (
           <Pressable style={styles.headerContainer} onPress={barClose ? () => onClose() : () => null}>
             <View style={styles.header} />
@@ -96,7 +89,7 @@ export const Modal = ({
         ) : (
           <View style={styles.crossContainer}>
             <Pressable onPress={onClose}>
-              <Icon name={"crossDark"} />
+              <Icon name="crossDark" />
             </Pressable>
           </View>
         )}
@@ -104,14 +97,13 @@ export const Modal = ({
       </Animated.View>
       <RNModal
         isVisible={loadingVisible}
-        animationIn={"fadeIn"}
-        animationOut={"fadeOut"}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
         onBackdropPress={() => setLoadingVisible(false)}
-        backdropColor={"transparent"}
+        backdropColor="transparent"
         onSwipeComplete={() => setLoadingVisible(false)}
         {...commonOptions}
-        {...{}}
-      >
+        {...{}}>
         <LoadingProvider loading={loadingVisible} />
       </RNModal>
     </RNModal>

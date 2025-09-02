@@ -33,3 +33,15 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Environment files - ignore all .env files
+.env
+.env.*
+!.env.template
+!.env.example
+aws-deployment/.env
+
+
+android
+
+ios

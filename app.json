@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Free Hand",
-    "slug": "free-hand",
+    "name": "Himfluence",
+    "slug": "himfluence",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,31 +9,46 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#FFFFFF"
     },
+    "plugins": ["expo-notifications"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.alexscherbakov.himfluence",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.anonymous.freehand"
+      "package": "com.alexscherbakov.himfluence",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.WAKE_LOCK",
+        "android.permission.VIBRATE",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "com.google.android.c2dm.permission.RECEIVE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "name": "Free Hand - Habit Tracker",
-      "shortName": "Free Hand",
+      "name": "Himfluence - Habit Tracker",
+      "shortName": "Himfluence",
       "lang": "en",
-      "scope": "/",
-      "startUrl": "/",
+      "scope": "/him",
+      "startUrl": "/him",
       "backgroundColor": "#000000",
       "themeColor": "#ffa31a",
-      "description": "Take control of your habits with Free Hand - a simple, effective habit tracking app",
-      "orientation": "any",
+      "description": "Take control of your habits with Himfluence - a simple, effective habit tracking app",
+      "orientation": "portrait",
       "display": "standalone",
-      "bundler": "metro"
-    }
+      "bundler": "metro",
+      "html": "./web/index.html"
+    },
+    "owner": "alexscherbakov"
   }
 }

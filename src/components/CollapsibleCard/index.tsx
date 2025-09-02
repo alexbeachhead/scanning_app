@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { Pressable, View } from "react-native";
-import { Divider, Spacer, Text } from "@components";
+import {useState} from 'react';
+import {Pressable, View} from 'react-native';
+import {Divider} from '../Divider';
+import {Spacer} from '../Spacer';
+import {Text} from '../Text';
 
-import { Icon } from "../Icon";
-import { useStyles } from "./styles";
+import {Icon} from '../Icon';
+import {useStyles} from './styles';
 
 interface CollapsibleCardProps {
   title: string;
@@ -14,14 +16,7 @@ interface CollapsibleCardProps {
   onTrashPress?: () => void;
 }
 
-export const CollapsibleCard = ({
-  title,
-  phone,
-  city,
-  address,
-  onEyePress,
-  onTrashPress,
-}: CollapsibleCardProps) => {
+export const CollapsibleCard = ({title, phone, city, address, onEyePress, onTrashPress}: CollapsibleCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const styles = useStyles();
 
@@ -32,10 +27,10 @@ export const CollapsibleCard = ({
   return (
     <View style={[styles.container]}>
       <Pressable onPress={toggleExpand} style={styles.header}>
-        <Text variant="Body/Medium/16" color="neutral900">
+        <Text variant="Body/Medium/16" color="content1">
           {title}
         </Text>
-        <Icon name={isExpanded ? "arrowUp" : "arrowDown"} />
+        <Icon name={isExpanded ? 'arrowUp' : 'arrowDown'} />
       </Pressable>
 
       {isExpanded && (
@@ -43,10 +38,10 @@ export const CollapsibleCard = ({
           <Spacer size={12} />
           {phone && (
             <View style={styles.row}>
-              <Text variant="Body/Regular/16" color="neutral600">
+              <Text variant="Body/Regular/16" color="content4">
                 Телефон
               </Text>
-              <Text variant="Body/Regular/16" color="neutral900">
+              <Text variant="Body/Regular/16" color="content1">
                 {phone}
               </Text>
             </View>
@@ -54,10 +49,10 @@ export const CollapsibleCard = ({
           <Spacer size={8} />
           {city && (
             <View style={styles.row}>
-              <Text variant="Body/Regular/16" color="neutral600">
+              <Text variant="Body/Regular/16" color="content4">
                 Город
               </Text>
-              <Text variant="Body/Regular/16" color="neutral900">
+              <Text variant="Body/Regular/16" color="content1">
                 {city}
               </Text>
             </View>
@@ -65,10 +60,10 @@ export const CollapsibleCard = ({
           <Spacer size={8} />
           {address && (
             <View style={styles.row}>
-              <Text variant="Body/Regular/16" color="neutral600">
+              <Text variant="Body/Regular/16" color="content4">
                 Адрес
               </Text>
-              <Text variant="Body/Regular/16" color="neutral900" style={{flex: 1, textAlign: "right"}}>
+              <Text variant="Body/Regular/16" color="content1" style={{flex: 1, textAlign: 'right'}}>
                 {address}
               </Text>
             </View>

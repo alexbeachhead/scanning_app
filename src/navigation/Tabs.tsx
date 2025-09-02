@@ -1,31 +1,35 @@
-import { BottomTabBarProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Stacks } from "../utils/constants/navigation";
-import { useCallback } from "react";
-import { TabBar } from "../components";
+import {BottomTabBarProps, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useCallback} from 'react';
+import {TabBar} from '../components';
+import {colors} from '../utils/constants';
+import {Stacks} from '../utils/constants/navigation';
 
-import { MyParcels } from "./MyParcels";
-import { BuyForMe } from "./BuyForMe";
-import { MyBalance } from "./MyBalance";
-import { Profile } from "./Profile";
+import {GoalSetting} from '../screens/1GoalSettingStack';
+import {HabitTracker} from '../screens/2HabitTrackerStack';
+import {AIChat} from '../screens/3AIChatStack';
+import {PurityStreaks} from '../screens/4PurityStreaksStack';
+import {Quotes} from '../screens/5QuotesStack';
 
 export const Tabs = () => {
-  const Tabs = createBottomTabNavigator();
+  const TabNavigator = createBottomTabNavigator();
 
   const options = {
     headerShown: false,
   };
-  const EmptyComponent = () => <></>;
-
-
   const renderBottomBar = useCallback((props: BottomTabBarProps) => <TabBar {...props} />, []);
 
   return (
-    <Tabs.Navigator tabBar={renderBottomBar} screenOptions={options}>
-      <Tabs.Screen name={Stacks.MyParcels} component={MyParcels} />
-      <Tabs.Screen name={Stacks.BuyForMe} component={BuyForMe} />
-      <Tabs.Screen name={Stacks.CreateParcelEmpty} component={EmptyComponent} />
-      <Tabs.Screen name={Stacks.MyBalance} component={MyBalance} />
-      <Tabs.Screen name={Stacks.Profile} component={Profile} />
-    </Tabs.Navigator>
+    <TabNavigator.Navigator
+      tabBar={renderBottomBar}
+      screenOptions={{
+        ...options,
+        tabBarStyle: {backgroundColor: colors.background},
+      }}>
+      <TabNavigator.Screen name={Stacks.GoalSetting} component={GoalSetting} />
+      <TabNavigator.Screen name={Stacks.AIChat} component={AIChat} />
+      <TabNavigator.Screen name={Stacks.HabitTracker} component={HabitTracker} />
+      {/* <TabNavigator.Screen name={Stacks.PurityStreaks} component={PurityStreaks} />
+      <TabNavigator.Screen name={Stacks.Quotes} component={Quotes} /> */}
+    </TabNavigator.Navigator>
   );
 };

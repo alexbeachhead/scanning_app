@@ -1,16 +1,10 @@
-import {colors} from '@utils/constants';
 import React, {useState} from 'react';
-import {View} from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import {Platform} from 'react-native';
 import {MaskType} from 'src/types';
 
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {stringToDate} from '@utils/helpers/formatDateToDDMMYYYY';
 import {Input} from '../Input';
-import {Spacer} from '../Spacer';
-
-// Simple helper function to replace the missing stringToDate
-const stringToDate = (dateString: string): Date => {
-  return new Date(dateString);
-};
 
 type Props = {
   value: string;
@@ -29,7 +23,63 @@ export const InputWithCalendar = ({
   disabled,
   errorMessages = [],
 }: Props) => {
-  const [startDatePickerShow, setStartDatePickerShow] = useState(false);
+  const [date, setDate] = useState(stringToDate(value));
+  const [show, setShow] = useState(false);
+
+  const onChange = (event: unknown, selectedDate?: Date) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate || new Date());
+    const year = currentDate?.getFullYear();
+    const month = String((currentDate?.getMonth() || 0) + 1).padStart(2, '0');
+    const day = String(currentDate?.getDate()).padStart(2, '0');
+    const formattedDate = `${month}-${day}-${year}`;
+    onChangeText(formattedDate);
+    handleChangeText(currentDate || new Date());
+  };
+
+  const handleWebDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(event.target.value);
+    setDate(selectedDate);
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const formattedDate = `${month}-${day}-${year}`;
+    onChangeText(formattedDate);
+    handleChangeText(selectedDate);
+
+    // Reset show state for web so it can be triggered again
+    if (Platform.OS === 'web') {
+      setShow(false);
+    }
+  };
+
+  const showDatepicker = () => {
+    if (Platform.OS === 'web') {
+      // On web, show the date input and trigger it
+      setShow(true);
+      // Use setTimeout to ensure the input is rendered before trying to click it
+      setTimeout(() => {
+        const dateInput = document.querySelector('input[type="date"]') as HTMLInputElement;
+        if (dateInput) {
+          dateInput.showPicker?.() || dateInput.click();
+        }
+      }, 100);
+    } else {
+      setShow(true);
+    }
+  };
+
+  // Convert MM-DD-YYYY to YYYY-MM-DD for HTML date input
+  const getWebDateValue = () => {
+    if (!value) return '';
+    try {
+      const [month, day, year] = value.split('-').map(Number);
+      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    } catch {
+      return '';
+    }
+  };
 
   return (
     <>
@@ -38,26 +88,42 @@ export const InputWithCalendar = ({
         placeholder={placeholder}
         onChangeText={onChangeText}
         maskType={MaskType.DateInput}
-        // withMovingPlaceholder
-        // withIcon
-        // icon="calendar"
-        onIconPress={() => setStartDatePickerShow(prev => !prev)}
+        withMovingPlaceholder
+        withIcon
+        icon="calendar"
+        onIconPress={showDatepicker}
         disabled={disabled}
         errorMessages={errorMessages}
       />
-      {startDatePickerShow && (
-        <>
-          <View
-            style={{
-              backgroundColor: colors.common.neutral0,
-              marginTop: -7,
-              borderRadius: 12,
-              alignItems: 'center',
-            }}>
-            <DatePicker date={stringToDate(value)} onDateChange={handleChangeText} theme="light" mode="date" />
-          </View>
-          <Spacer size="m" />
-        </>
+
+      {/* Web date input (shown when icon is pressed) */}
+      {Platform.OS === 'web' && show && (
+        <input
+          type="date"
+          value={getWebDateValue()}
+          onChange={handleWebDateChange}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+            cursor: 'pointer',
+          }}
+        />
+      )}
+
+      {/* Native date picker for mobile */}
+      {Platform.OS !== 'web' && show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          is24Hour={true}
+          onChange={onChange}
+          display="spinner"
+        />
       )}
     </>
   );

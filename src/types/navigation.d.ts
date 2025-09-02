@@ -1,15 +1,17 @@
-import { ParamListBase } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Routes } from "@utils/constants/navigation";
+import {ParamListBase} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Routes} from '@utils/constants/navigation';
 
 export interface RouteParamList extends ParamListBase {
+  [Routes.Onboarding]: undefined;
+  [Routes.Paywall]: undefined;
   [Routes.Intro]: undefined;
   [Routes.SignIn]: undefined;
   [Routes.ForgotPassword]: undefined;
   [Routes.NewPassword]: undefined;
-  [Routes.SignUp]: { email: string };
-  [Routes.SignUpSuccess]: { screenType: "success" | "confirm" };
-  [Routes.SignUpConfirmSuccess]: { screenType: "success" | "error" };
+  [Routes.SignUp]: {email: string};
+  [Routes.SignUpSuccess]: {screenType: 'success' | 'confirm'};
+  [Routes.SignUpConfirmSuccess]: {screenType: 'success' | 'error'};
   [Routes.DeclarantsInfo]: {
     id?: string;
   };
