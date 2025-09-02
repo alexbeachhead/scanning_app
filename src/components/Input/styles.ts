@@ -1,0 +1,70 @@
+import { withStyles } from "@utils/hocs/withStyles";
+
+export const useStyles = withStyles(({ spacing, colors }) => ({
+  container: {
+    flexGrow: 1,
+  },
+  containerError: {},
+  inputContainer: {
+    height: 52,
+    flexDirection: "row",
+    backgroundColor: colors.neutral0,
+    borderRadius: 12,
+    overflow: "hidden",
+    alignItems: "flex-end",
+    paddingHorizontal: spacing.m,
+    position: "relative",
+    paddingBottom: 4,
+  },
+  input: {
+    fontSize: 16,
+    lineHeight: 22.4,
+    fontWeight: "500",
+    fontFamily: "Gilroy-Medium",
+    backgroundColor: colors.neutral0,
+    color: colors.primaryTextColor,
+    zIndex: 1,
+    flex: 1,
+    width: "100%",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    // textTransform: "uppercase",
+    // textAlignVertical: "bottom",
+    padding: 0,
+  },
+  inputUnfocused: {
+    height: "100%",
+  },
+  inputFocused: {
+    height: "50%",
+  },
+  inputError: {
+    backgroundColor: colors.red100,
+  },
+  placeholder: {
+    position: "absolute",
+    left: spacing.m,
+    color: colors.secondaryTextColor,
+    zIndex: 10,
+    marginTop: -4,
+    fontSize: 16,
+    lineHeight: 22.4,
+    fontWeight: "500",
+    fontFamily: "Gilroy-Medium",
+  },
+  errorText: {
+    color: colors.mainRed,
+    fontSize: 14,
+    lineHeight: 19.6,
+    fontWeight: "500",
+    fontFamily: "Gilroy-Medium",
+    maxWidth: "90%",
+  },
+  errorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginTop: 8,
+    paddingVertical: 2.5,
+  },
+}));

@@ -1,0 +1,74 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "types": [
+      "node",
+      "react-native"
+    ],
+    "lib": [
+      "es2019",
+      "dom.iterable",
+      "ES2021.String"
+    ],
+    "jsx": "react-native",
+    "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": [
+        "./src/api/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@models/*": [
+        "./src/models/*"
+      ],
+      "@models": [
+        "./src/models"
+      ],
+      "@store": [
+        "./src/store"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@screens": [
+        "./src/screens"
+      ],
+      "@providers": [
+        "./src/providers"
+      ],
+      "@navigation": [
+        "./src/navigation"
+      ],
+      "@components": [
+        "./src/components"
+      ],
+      "@modals": [
+        "./src/modals"
+      ],
+      "@modals/*": [
+        "./src/modals/*"
+      ],
+      "@modules": [
+        "./src/modules"
+      ],
+      "@apiTypes/*": [
+        "./src/api/types/*"
+      ]
+    }
+  },
+  "extends": "expo/tsconfig.base",
+  "files": ["./App.tsx"],
+  "include": ["./src/**/*", "./types/**/*"],
+  "exclude": ["node_modules"]
+}

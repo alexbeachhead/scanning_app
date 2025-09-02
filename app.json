@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Free Hand",
+    "slug": "free-hand",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.anonymous.freehand"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "Free Hand - Habit Tracker",
+      "shortName": "Free Hand",
+      "lang": "en",
+      "scope": "/",
+      "startUrl": "/",
+      "backgroundColor": "#000000",
+      "themeColor": "#ffa31a",
+      "description": "Take control of your habits with Free Hand - a simple, effective habit tracking app",
+      "orientation": "any",
+      "display": "standalone",
+      "bundler": "metro"
+    }
+  }
+}
